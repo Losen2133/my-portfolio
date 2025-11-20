@@ -100,7 +100,7 @@ export default function Home() {
             </div>
           </div>
           <img
-            src="/me.jpg"
+            src="/my-portfolio/me.jpg"
             alt="Romer Ryle B. Carreon portrait"
             style={{
               display: "block",
@@ -165,7 +165,7 @@ export default function Home() {
                 gap: "1.2rem"
               }}>
                 <img
-                  src="/ssd.png"
+                  src="/my-portfolio/ssd.png"
                   alt="SSD LOGO"
                   style={{ width: "120px", marginBottom: "0.5rem", borderRadius: "1rem" }}
                 />
@@ -190,7 +190,7 @@ export default function Home() {
                 gap: "1.2rem"
               }}>
                 <img
-                  src="/hrsp.png"
+                  src="/my-portfolio/hrsp.png"
                   alt="HRSP LOGO"
                   style={{ width: "120px", marginBottom: "0.5rem", borderRadius: "1rem" }}
                 />
@@ -305,7 +305,7 @@ export default function Home() {
                 gap: "1.2rem"
               }}>
                 <img
-                  src="/psd.png"
+                  src="/my-portfolio/psd.png"
                   alt="Parking Sticker Database v2 Logo"
                   style={{ width: "600px", maxWidth: "90vw", marginBottom: "0.5rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(200,169,81,0.07)" }}
                 />
@@ -330,7 +330,7 @@ export default function Home() {
                 gap: "1.2rem"
               }}>
                 <img
-                  src="/uranus.png"
+                  src="/my-portfolio/uranus.png"
                   alt="Uranus LOGO"
                   style={{ width: "180px", maxWidth: "80vw", marginBottom: "0.5rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(81,130,200,0.07)" }}
                 />
@@ -355,7 +355,7 @@ export default function Home() {
                 gap: "1.2rem"
               }}>
                 <img
-                  src="/ipbl2.jpg"
+                  src="/my-portfolio/ipbl2.jpg"
                   alt="IPBL Japan Project LOGO"
                   style={{ width: "180px", maxWidth: "80vw", marginBottom: "0.5rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(81,130,200,0.07)" }}
                 />
