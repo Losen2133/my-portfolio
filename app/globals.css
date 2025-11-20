@@ -1,26 +1,250 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  scroll-behavior: smooth;
+  /* Enable scroll snapping on the root scroller */
+  scroll-snap-type: y mandatory;
+  /* Use auto so the browser chooses the best scrolling behavior for the page */
+  overflow: hidden; /* disables scrolling */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (max-width: 430px) {
+  html, body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+  header {
+    display: none !important;
+  }
+  .section {
+    font-size: 1.1rem !important;
+    padding: 0 !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+  #me-section > div {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0.7rem 0.2rem !important;
+    gap: 0.7rem !important;
+    max-width: 99vw !important;
+    min-width: 0 !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10) !important;
+  }
+  #me-section img {
+    max-width: 140px !important;
+    min-width: 80px !important;
+    margin: 0 auto !important;
+    border-radius: 1rem !important;
+  }
+  #me-section div[style*='flex-direction:column'] {
+    margin-right: 0 !important;
+    text-align: center !important;
+    align-items: center !important;
+  }
+  #me-section div[style*='maxWidth: "420px"'] {
+    max-width: 95vw !important;
+    font-size: 0.95rem !important;
+    padding: 0.5rem 0.2rem !important;
+  }
+  #me-section div[style*='font-size: "2.7rem"'] {
+    font-size: 1.3rem !important;
+    line-height: 1.2 !important;
+  }
+  #experiences-section > div {
+    padding: 0.7rem 0.2rem !important;
+    max-width: 99vw !important;
+    min-width: 0 !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10) !important;
+  }
+  #experiences-section h2 {
+    font-size: 1.2rem !important;
+    margin-bottom: 0.7rem !important;
+    text-align: center !important;
+  }
+  #skills-section {
+    background: linear-gradient(120deg, #DDB7A0 60%, #fffbe6 100%) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 !important;
+  }
+  #skills-section > div {
+    background: rgba(255,255,255,0.98) !important;
+    padding: 1.2rem 0.5rem !important;
+    max-width: 98vw !important;
+    border-radius: 1.2rem !important;
+    box-shadow: 0 4px 18px rgba(200,169,81,0.13) !important;
+    border: 1px solid #C8A951 !important;
+    gap: 1rem !important;
+  }
+  #skills-section h2 {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #C8A951 !important;
+    text-align: center !important;
+    text-shadow: none !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+  }
+  #skills-section h3 {
+    font-size: 1.05rem !important;
+    margin-bottom: 0.2rem !important;
+    color: #222 !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.3px !important;
+  }
+  #skills-section ul {
+    font-size: 0.98rem !important;
+    margin-left: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.5 !important;
+    padding-left: 0 !important;
+  }
+  #skills-section li {
+    margin-bottom: 0.25rem !important;
+    background: none !important;
+    border-radius: 0.3rem !important;
+    padding: 0.1rem 0 !important;
+  }
+  #skills-section span[style*='color: #C8A951'] {
+    color: #C8A951 !important;
+    font-weight: 600 !important;
+  }
+  #skills-section h2 {
+    font-size: 1.2rem !important;
+    margin-bottom: 0.7rem !important;
+    text-align: center !important;
+    text-shadow: none !important;
+  }
+  #skills-section h3 {
+    font-size: 1rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+  #skills-section ul {
+    font-size: 0.95rem !important;
+    margin-left: 0.7rem !important;
+    margin-bottom: 0.7rem !important;
+    line-height: 1.5 !important;
+    padding-left: 0 !important;
+  }
+  #skills-section li {
+    margin-bottom: 0.3rem !important;
+  }
+  .mySwiper {
+    min-height: 260px !important;
+    width: 100vw !important;
+  }
+  .mySwiper .swiper-slide > div {
+    height: auto !important;
+    min-height: 180px !important;
+    padding: 1rem 0.5rem !important;
+    border-radius: 1rem !important;
+    gap: 0.7rem !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07) !important;
+  }
+  .mySwiper img {
+    width: 70px !important;
+    margin-bottom: 0.3rem !important;
+    border-radius: 0.7rem !important;
+  }
+  .mySwiper span[style*='font-size: "2rem"'] {
+    font-size: 1.1rem !important;
+  }
+  .mySwiper span[style*='font-size: "1.2rem"'] {
+    font-size: 0.9rem !important;
+  }
+  .mySwiper span[style*='font-size: "1.1rem"'] {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 0.3rem !important;
+  }
+  #projects-section {
+    background: linear-gradient(120deg, #C8A951 60%, #fffbe6 100%) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 !important;
+  }
+  #projects-section > div {
+    background: rgba(255,255,255,0.98) !important;
+    padding: 1.2rem 0.5rem !important;
+    max-width: 98vw !important;
+    border-radius: 1.2rem !important;
+    box-shadow: 0 4px 18px rgba(200,169,81,0.13) !important;
+    border: 1px solid #C8A951 !important;
+    gap: 1rem !important;
+  }
+  #projects-section h2 {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.5rem !important;
+    color: #C8A951 !important;
+    text-align: center !important;
+    text-shadow: none !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+  }
+  .mySwiper {
+    min-height: 260px !important;
+    width: 100vw !important;
+  }
+  .mySwiper .swiper-slide > div {
+    height: auto !important;
+    min-height: 180px !important;
+    padding: 1rem 0.5rem !important;
+    border-radius: 1rem !important;
+    gap: 0.7rem !important;
+    font-size: 0.95rem !important;
+    box-shadow: 0 2px 8px rgba(200,169,81,0.07) !important;
+    background: linear-gradient(120deg, #fffbe6 60%, #f7e9d7 100%) !important;
+  }
+  .mySwiper img {
+    width: 90px !important;
+    max-width: 90vw !important;
+    margin-bottom: 0.3rem !important;
+    border-radius: 0.7rem !important;
+    box-shadow: 0 2px 8px rgba(200,169,81,0.07) !important;
+  }
+  .mySwiper span[style*='font-size: "2rem"'] {
+    font-size: 1.1rem !important;
+    text-align: center !important;
+  }
+  .mySwiper span[style*='font-size: "1.2rem"'] {
+    font-size: 0.9rem !important;
+    text-align: center !important;
+  }
+  .mySwiper span[style*='font-size: "1.1rem"'] {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 0.3rem !important;
+    text-align: center !important;
   }
 }
 
+/* Hide scrollbars for all browsers */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.section {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  position: relative;
+  background-size: cover;
+  /* default position so JS can update the Y value reliably */
+  background-position: center 0;
+  background-repeat: no-repeat;
+}
+
+[data-speed] {
+  /* hint to browser that background-position may change */
+  will-change: background-position, transform;
 }
