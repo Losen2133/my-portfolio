@@ -5,42 +5,34 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 export default function Home() {
-  
-  // Parallax Effect Logic
   useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          // Only apply parallax on screens larger than mobile
-          if (window.innerWidth > 768) {
-            // We select elements, but we cast them inside the loop to fix the error
-            document.querySelectorAll("[data-speed]").forEach((el) => {
-              // 1. Tell TypeScript this is an HTMLElement
-              const element = el as HTMLElement; 
-
-              // 2. Now .dataset and .style work perfectly
-              const speed = Number(element.dataset.speed) || 0;
-              const rect = element.getBoundingClientRect();
-              const offsetFromCenter = rect.top + rect.height / 2 - window.innerHeight / 2;
-              
-              const y = Math.round(offsetFromCenter * speed);
-              
-              element.style.backgroundPosition = `center ${-y}px`;
-            });
-          }
+          document.querySelectorAll<HTMLElement>("[data-speed]").forEach((el) => {
+            const speed = Number(el.dataset.speed) || 0;
+            const rect = el.getBoundingClientRect();
+            // calculate how far the element is from the center of the viewport
+            const offsetFromCenter = rect.top + rect.height / 2 - window.innerHeight / 2;
+            // move background based on offset and speed
+            const y = Math.round(offsetFromCenter * speed);
+            // set both backgroundPosition and backgroundPositionY for compatibility
+            el.style.backgroundPosition = `center ${-y}px`;
+            el.style.backgroundPositionY = `-${y}px`;
+          });
           ticking = false;
         });
         ticking = true;
       }
     };
 
+    // initialize positions on mount
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll);
@@ -50,273 +42,377 @@ export default function Home() {
     };
   }, []);
 
-  // Common Styles (Using Tailwind classes concepts for inline style fallback if needed)
-  const glassStyle = {
-    background: "rgba(255, 255, 255, 0.85)",
-    backdropFilter: "blur(12px)",
-    WebkitBackdropFilter: "blur(12px)",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
-    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-  };
-
-  const goldColor = "#C8A951";
-
   return (
-    <main className="min-h-screen text-gray-800 font-sans overflow-x-hidden">
+    <>
       <Header />
 
-      {/* --- HERO SECTION --- */}
+      <section
+        id="before-section"
+        className="section"
+        data-speed="0.01"
+        style={{
+          background: "linear-gradient(120deg, #e9e9ff 60%, #fffbe6 100%)", // changed to a cool lavender/blue to beige gradient
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        This is better viewed in a desktop or tablet device.
+      </section>
+
       <section
         id="me-section"
-        className="relative min-h-screen w-full flex items-center justify-center py-20 px-4 sm:px-8"
-        data-speed="0.05"
+        className="section"
+        data-speed="0.01"
         style={{
-          background: "linear-gradient(135deg, #fdfbf7 0%, #ebdec2 100%)",
+          background: "linear-gradient(120deg, #ebe9e1 60%, #f7e9d7 100%)",
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          textAlign: "left"
         }}
       >
         <div
-          style={glassStyle}
-          className="relative z-10 w-full max-w-6xl rounded-3xl p-8 md:p-12 flex flex-col-reverse md:flex-row items-center gap-10 md:gap-16"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            padding: "2.5rem 3rem",
+            borderRadius: "2rem",
+            background: "rgba(255,255,255,0.85)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+            gap: "2.5rem",
+            maxWidth: "900px",
+            width: "100%",
+            margin: "auto"
+          }}
         >
-          {/* Text Content */}
-          <div className="flex-1 flex flex-col gap-6 text-center md:text-left">
-            <div>
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight text-gray-900 tracking-tight">
-                Hello! I'm <br />
-                <span style={{ color: goldColor }}>Romer Ryle B. Carreon</span>
-              </h1>
+          <div style={{ flexDirection: "column", display: "flex", marginRight: "2.5rem", flex: 1 }}>
+            <div style={{ fontSize: "2.7rem", color: "#222", fontWeight: 700, marginBottom: "0.2rem", letterSpacing: "-1px", lineHeight: 1.1 }}>
+              Hello! I'm <br /><span style={{ color: "#C8A951" }}>Romer Ryle B. Carreon</span>
             </div>
-            
-            <div className="text-lg md:text-xl leading-relaxed text-gray-700 bg-white/60 p-6 rounded-xl shadow-sm border border-orange-100/50">
-              <p>
-                I’m a fourth-year <strong>Information Technology</strong> student, passionate about building practical solutions.
-                I enjoy turning ideas into real projects that help people, utilizing modern tools like 
-                <span className="font-semibold text-yellow-600"> React, Laravel, and IoT.</span>
-              </p>
-              <br />
-              <p>
-                I’m excited to keep growing as a developer and make a positive impact through technology.
-              </p>
+            <div style={{ fontSize: "1.25rem", color: "#333", maxWidth: "420px", wordBreak: "break-word", lineHeight: 1.6, background: "rgba(255,255,255,0.6)", padding: "1rem 1.5rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(200,169,81,0.07)", fontWeight: 500 }}>
+              I’m a fourth-year Information Technology student, passionate about building practical solutions and constantly learning new skills.<br />
+              I enjoy working with modern tools and turning ideas into real projects that help people.<br />
+              I love coding, problem-solving, and collaborating with others to create innovative applications, and I have experience working in an office with people from different backgrounds.<br />
+              I’m excited to keep growing as a developer and make a positive impact through technology.
             </div>
           </div>
-
-          {/* Image */}
-          <div className="flex-shrink-0">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-              <img
-                src="/my-portfolio/me.jpg"
-                alt="Romer Ryle Portrait"
-                className="relative block w-64 h-64 md:w-80 md:h-80 object-cover rounded-[2rem] border-4 border-white shadow-2xl"
-              />
-            </div>
-          </div>
+          <img
+            src="/me.jpg"
+            alt="Romer Ryle B. Carreon portrait"
+            style={{
+              display: "block",
+              maxWidth: "350px",
+              width: "100%",
+              borderRadius: "1.5rem",
+              boxShadow: "0 6px 32px rgba(200,169,81,0.18), 0 2px 12px rgba(0,0,0,0.10)",
+              border: "4px solid #fff"
+            }}
+          />
         </div>
       </section>
 
-      {/* --- EXPERIENCES SECTION --- */}
       <section
         id="experiences-section"
-        className="relative w-full py-24 px-4 sm:px-8"
-        data-speed="0.02"
+        className="section"
+        data-speed="0.01"
         style={{
-          background: "linear-gradient(135deg, #2C2C2C 0%, #1a1a1a 100%)",
+          background: "linear-gradient(120deg, #545454 60%, #222 100%)",
+          color: "#fff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
         }}
       >
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-16 tracking-tight">
-            <span className="text-yellow-500 mr-2">✦</span> Experiences
-          </h2>
-
+        <div style={{
+          width: "100%",
+          maxWidth: "800px",
+          margin: "auto",
+          borderRadius: "2rem",
+          padding: "2.5rem 1.5rem",
+          background: "rgba(40,40,50,0.85)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.18)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}>
+          <h2 style={{ fontSize: "2.3rem", marginBottom: "2rem", color: "#fff", fontWeight: 700, letterSpacing: "-1px" }}>Experiences</h2>
           <Swiper
-            modules={[Pagination, Autoplay, Navigation]}
-            spaceBetween={30}
-            slidesPerView={1}
             pagination={{ clickable: true }}
-            autoplay={{ delay: 4000, disableOnInteraction: false }}
-            breakpoints={{
-              768: { slidesPerView: 2 }, // On tablet/desktop show 2 slides
+            spaceBetween={30}
+            modules={[Pagination]}
+            className="mySwiper"
+            style={{ width: "100%", minHeight: "420px" }}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
             }}
-            className="w-full pb-12"
+            loop={true}
           >
-            {/* Experience 1 */}
-            <SwiperSlide className="h-auto">
-              <div className="bg-gradient-to-br from-white to-gray-100 rounded-3xl p-8 h-full flex flex-col items-center text-center shadow-xl border-t-4 border-yellow-500">
-                <img src="/my-portfolio/ssd.png" alt="SSD" className="w-24 h-24 object-contain mb-6 bg-white rounded-xl p-2 shadow-sm" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-1">USJR Safety & Security</h3>
-                <p className="text-yellow-600 font-bold mb-4">2022 - Present</p>
-                <p className="text-gray-600 leading-relaxed text-sm md:text-base bg-white/50 p-4 rounded-xl">
-                  Working Scholar assisting in data encoding, customer service, and developing internal application tools to improve office workflow.
-                </p>
+            <SwiperSlide>
+              <div style={{
+                height: "400px",
+                padding: "2rem 1.5rem",
+                background: "linear-gradient(120deg, #fffbe6 60%, #f7e9d7 100%)",
+                borderRadius: "1.5rem",
+                boxShadow: "0 4px 24px rgba(200,169,81,0.10)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1.2rem"
+              }}>
+                <img
+                  src="/ssd.png"
+                  alt="SSD LOGO"
+                  style={{ width: "120px", marginBottom: "0.5rem", borderRadius: "1rem" }}
+                />
+                <span style={{ fontSize: "2rem", color: "#222", fontWeight: 700, textAlign: "center" }}>USJR Safety & Security Department</span>
+                <span style={{ fontSize: "1.2rem", color: "#C8A951", fontWeight: 600 }}>(2022 - Present)</span>
+                <span style={{ fontSize: "1.1rem", color: "#333", textAlign: "center", background: "rgba(255,255,255,0.7)", padding: "1rem 1.2rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(200,169,81,0.07)" }}>
+                  Worked as a Working Scholar for the safety and security department. I mainly assisted in data encoding and customer service. I also helped during the NSTP-CWTS classes. I also developed application tools that improved the workflow of the office.
+                </span>
               </div>
             </SwiperSlide>
-
-            {/* Experience 2 */}
-            <SwiperSlide className="h-auto">
-              <div className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 h-full flex flex-col items-center text-center shadow-xl border-t-4 border-blue-500">
-                <img src="/my-portfolio/hrsp.png" alt="HRSP" className="w-24 h-24 object-contain mb-6 bg-white rounded-xl p-2 shadow-sm" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-1">Technical Support</h3>
-                <p className="text-blue-600 font-bold mb-4">2020 - 2022</p>
-                <p className="text-gray-600 leading-relaxed text-sm md:text-base bg-white/50 p-4 rounded-xl">
-                   Served as Technical Support and Committee member for school events during Senior High School immersion.
-                </p>
+            <SwiperSlide>
+              <div style={{
+                height: "400px",
+                padding: "2rem 1.5rem",
+                background: "linear-gradient(120deg, #e9e9ff 60%, #d7e9f7 100%)",
+                borderRadius: "1.5rem",
+                boxShadow: "0 4px 24px rgba(81,130,200,0.10)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1.2rem"
+              }}>
+                <img
+                  src="/hrsp.png"
+                  alt="HRSP LOGO"
+                  style={{ width: "120px", marginBottom: "0.5rem", borderRadius: "1rem" }}
+                />
+                <span style={{ fontSize: "2rem", color: "#222", fontWeight: 700, textAlign: "center" }}>Technical Support and Committee</span>
+                <span style={{ fontSize: "1.2rem", color: "#5182c8", fontWeight: 600 }}>(2020 - 2022)</span>
+                <span style={{ fontSize: "1.1rem", color: "#333", textAlign: "center", background: "rgba(255,255,255,0.7)", padding: "1rem 1.2rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(81,130,200,0.07)" }}>
+                  I had my Senior High School immersion as the Technical Support for HRSP during the pandemic and was the Technical Committee during events in the school.
+                </span>
               </div>
             </SwiperSlide>
           </Swiper>
         </div>
       </section>
 
-      {/* --- SKILLS SECTION --- */}
       <section
         id="skills-section"
-        className="relative w-full py-24 px-4 sm:px-8 bg-[#fffbf0]"
+        className="section"
         data-speed="0.01"
+        style={{ background: "linear-gradient(120deg, #DDB7A0 60%, #fffbe6 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        <div 
-            style={glassStyle}
-            className="max-w-4xl mx-auto rounded-3xl p-8 md:p-16 border-2 border-[#C8A951]/20"
-        >
-          <h2 className="text-3xl md:text-5xl font-bold text-center text-gray-900 mb-12">
-            <span className="mr-3">🛠️</span> Skills
+        <div style={{
+          background: "rgba(255,255,255,0.97)",
+          borderRadius: "2.2rem",
+          boxShadow: "0 12px 36px rgba(200,169,81,0.13)",
+          padding: "2.7rem 2.2rem",
+          maxWidth: "650px",
+          width: "100%",
+          margin: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "2rem",
+          border: "1.5px solid #C8A951"
+        }}>
+          <h2 style={{ fontSize: "2.5rem", color: "#C8A951", fontWeight: 800, marginBottom: "0.7rem", letterSpacing: "-1px", textShadow: "0 2px 8px #f7e9d7", textAlign: "center"  }}>
+            <span style={{ verticalAlign: "middle", marginRight: "0.5rem" }}>🛠️</span>Skills
           </h2>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Technical */}
-            <div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center justify-center md:justify-start">
-                    <span className="text-yellow-600 mr-2">💻</span> Technical
-                </h3>
-                <ul className="space-y-3 text-gray-700 text-lg">
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> Front-End & Back-End Dev</li>
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> <span className="font-semibold mx-1">Java, JS, Python, PHP</span></li>
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> Laravel, React, Ionic</li>
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> Database Management</li>
-                </ul>
-            </div>
-
-            {/* Leadership */}
-            <div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center justify-center md:justify-start">
-                    <span className="text-yellow-600 mr-2">🤝</span> Soft Skills
-                </h3>
-                 <ul className="space-y-3 text-gray-700 text-lg">
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> Leadership & Teamwork</li>
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> Problem Solving</li>
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> Project Management</li>
-                    <li className="flex items-start"><span className="text-yellow-500 mr-2">▸</span> Research & Analysis</li>
-                </ul>
-            </div>
+          <div>
+            <h3 style={{ fontSize: "1.35rem", color: "#222", fontWeight: 700, marginBottom: "0.5rem", letterSpacing: "-0.5px", textAlign: "center"  }}>
+              <span style={{ color: "#C8A951", marginRight: "0.3rem" }}>💻</span>Technical
+            </h3>
+            <ul style={{ fontSize: "1.13rem", color: "#222", marginLeft: "1.2rem", marginBottom: "1.2rem", lineHeight: 1.8, paddingLeft: 0 }}>
+              <li style={{ marginBottom: "0.5rem" }}><b>Web & Mobile Development</b></li>
+              <li style={{ marginBottom: "0.5rem" }}>Front–End and Back–End Development</li>
+              <li style={{ marginBottom: "0.5rem" }}>Experience in <span style={{ color: '#C8A951', fontWeight: 600 }}>C, Java, Javascript, Python, Php</span></li>
+              <li style={{ marginBottom: "0.5rem" }}>Worked with <span style={{ color: '#C8A951', fontWeight: 600 }}>Laravel, Ionic, React, Angular</span></li>
+              <li style={{ marginBottom: "0.5rem" }}>Proficient in Microsoft Office & Google Workspace</li>
+              <li style={{ marginBottom: "0.5rem" }}>Visual Studio & IntelliJ IDE Experience</li>
+              <li style={{ marginBottom: "0.5rem" }}>Keen research, data analysis, and solution support</li>
+              <li style={{ marginBottom: "0.5rem" }}>Strong decision–making, judgment, and problem solving</li>
+            </ul>
+            <h3 style={{ fontSize: "1.35rem", color: "#222", fontWeight: 700, marginBottom: "0.5rem", letterSpacing: "-0.5px", textAlign: "center"  }}>
+              <span style={{ color: "#C8A951", marginRight: "0.3rem" }}>🤝</span>Leadership & Collaboration
+            </h3>
+            <ul style={{ fontSize: "1.13rem", color: "#222", marginLeft: "1.2rem", lineHeight: 1.8, paddingLeft: 0 }}>
+              <li style={{ marginBottom: "0.5rem" }}>
+                <b>Team Player</b> with excellent interpersonal communication skills, successful in collaborating on projects (e.g., <span style={{ color: '#C8A951', fontWeight: 600 }}>USJR Parking Sticker tool</span>) with good time management skills.
+              </li>
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* --- PROJECTS SECTION --- */}
       <section
         id="projects-section"
-        className="relative w-full py-24 px-4 sm:px-8"
-        style={{ background: "linear-gradient(180deg, #C8A951 0%, #F5E6CA 100%)" }}
+        className="section"
+        data-speed="0.01"
+        style={{
+          background: "linear-gradient(120deg, #C8A951 60%, #fffbe6 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
       >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-bold text-center text-white mb-16 drop-shadow-md">
-            <span className="mr-2">🚀</span> Featured Projects
+        <div style={{
+          width: "100%",
+          maxWidth: "800px",
+          margin: "auto",
+          borderRadius: "2rem",
+          padding: "2.5rem 1.5rem",
+          background: "rgba(255,255,255,0.96)",
+          boxShadow: "0 8px 32px rgba(200,169,81,0.13)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center"
+        }}>
+          <h2 style={{ fontSize: "2.3rem", marginBottom: "2rem", color: "#C8A951", fontWeight: 800, letterSpacing: "-1px", textAlign: "center", textShadow: "0 2px 8px #fffbe6" }}>
+            <span style={{ verticalAlign: "middle", marginRight: "0.5rem" }}>🚀</span>Projects
           </h2>
-
           <Swiper
-            modules={[Pagination, Navigation, Autoplay]}
-            spaceBetween={40}
-            slidesPerView={1}
-            navigation
             pagination={{ clickable: true }}
-            autoplay={{ delay: 5000 }}
-            breakpoints={{
-              1024: { slidesPerView: 2 }, // Show 2 slides on large screens
+            spaceBetween={30}
+            modules={[Pagination]}
+            className="mySwiper"
+            style={{ width: "100%", minHeight: "600px" }}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
             }}
-            className="w-full pb-14 px-4"
+            loop={true}
           >
-            {/* Project 1 */}
-            <SwiperSlide className="h-auto">
-              <div className="bg-white rounded-[2rem] overflow-hidden shadow-2xl h-full flex flex-col">
-                <div className="w-full h-64 bg-gray-100 flex items-center justify-center p-6 overflow-hidden">
-                    <img src="/my-portfolio/psd.png" alt="Parking Sticker DB" className="h-full object-contain hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="text-2xl font-bold text-gray-900">Parking Sticker Database v2</h3>
-                    <p className="text-yellow-600 font-semibold text-sm mb-4">2024 - 2025</p>
-                    <p className="text-gray-600 leading-relaxed">
-                        A no-code web application utilizing Google AppSheet to streamline the parking sticker issuance process at USJR. Focused on efficiency and budget-friendly resource management.
-                    </p>
-                </div>
+            <SwiperSlide>
+              <div style={{
+                height: "525px",
+                padding: "2rem 1.5rem",
+                background: "linear-gradient(120deg, #fffbe6 60%, #f7e9d7 100%)",
+                borderRadius: "1.5rem",
+                boxShadow: "0 4px 24px rgba(200,169,81,0.10)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1.2rem"
+              }}>
+                <img
+                  src="/psd.png"
+                  alt="Parking Sticker Database v2 Logo"
+                  style={{ width: "600px", maxWidth: "90vw", marginBottom: "0.5rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(200,169,81,0.07)" }}
+                />
+                <span style={{ fontSize: "2rem", color: "#222", fontWeight: 700, textAlign: "center" }}>Parking Sticker Database v2</span>
+                <span style={{ fontSize: "1.2rem", color: "#C8A951", fontWeight: 600 }}>(2024 - 2025)</span>
+                <span style={{ fontSize: "1.1rem", color: "#333", textAlign: "center", background: "rgba(255,255,255,0.7)", padding: "1rem 1.2rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(200,169,81,0.07)" }}>
+                  A no code web application that utilized Google's Appsheet to streamline and digitize the parking sticker issuance process at USJR, enhancing efficiency and record-keeping. The choice to use Appsheet was due to the budget and resources given so I had to use something that was free and does its job.
+                </span>
               </div>
             </SwiperSlide>
-
-             {/* Project 2 */}
-             <SwiperSlide className="h-auto">
-              <div className="bg-white rounded-[2rem] overflow-hidden shadow-2xl h-full flex flex-col">
-                <div className="w-full h-64 bg-blue-50 flex items-center justify-center p-6 overflow-hidden">
-                    <img src="/my-portfolio/uranus.png" alt="Uranus" className="h-full object-contain hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="text-2xl font-bold text-gray-900">Uranus IoT Aquaponics</h3>
-                    <p className="text-blue-500 font-semibold text-sm mb-4">Capstone 2025</p>
-                    <p className="text-gray-600 leading-relaxed">
-                        An automated aquaponics system with IoT monitoring, logging, and remote feeding controls. Designed to ensure sustainability and minimize human intervention.
-                    </p>
-                </div>
+            <SwiperSlide>
+              <div style={{
+                height: "525px",
+                padding: "2rem 1.5rem",
+                background: "linear-gradient(120deg, #e9e9ff 60%, #d7e9f7 100%)",
+                borderRadius: "1.5rem",
+                boxShadow: "0 4px 24px rgba(81,130,200,0.10)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1.2rem"
+              }}>
+                <img
+                  src="/uranus.png"
+                  alt="Uranus LOGO"
+                  style={{ width: "180px", maxWidth: "80vw", marginBottom: "0.5rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(81,130,200,0.07)" }}
+                />
+                <span style={{ fontSize: "2rem", color: "#222", fontWeight: 700, textAlign: "center" }}>Uranus</span>
+                <span style={{ fontSize: "1.2rem", color: "#5182c8", fontWeight: 600 }}>(2025)</span>
+                <span style={{ fontSize: "1.1rem", color: "#333", textAlign: "center", background: "rgba(255,255,255,0.7)", padding: "1rem 1.2rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(81,130,200,0.07)" }}>
+                  Uranus is an aquaponics system enhanced with IoT capabilities, enabling automated environmental monitoring, growth-stage-based logging, and remote-controlled feeding. The system ensures sustainability, minimal human intervention, and optimized conditions for fish and plant growth. This is my capstone project for my degree.
+                </span>
               </div>
             </SwiperSlide>
-
-            {/* Project 3 */}
-            <SwiperSlide className="h-auto">
-              <div className="bg-white rounded-[2rem] overflow-hidden shadow-2xl h-full flex flex-col">
-                <div className="w-full h-64 bg-indigo-50 flex items-center justify-center p-6 overflow-hidden">
-                    <img src="/my-portfolio/ipbl2.jpg" alt="IPBL" className="h-full object-contain hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="p-8 flex-1 flex flex-col">
-                    <h3 className="text-2xl font-bold text-gray-900">IPBL Japan Solar Project</h3>
-                    <p className="text-indigo-500 font-semibold text-sm mb-4">2025</p>
-                    <p className="text-gray-600 leading-relaxed">
-                        International competition entry focused on optimizing hardware and algorithms for solar power conversion efficiency.
-                    </p>
-                </div>
+            <SwiperSlide>
+              <div style={{
+                height: "525px",
+                padding: "2rem 1.5rem",
+                background: "linear-gradient(120deg, #e9e9ff 60%, #d7e9f7 100%)",
+                borderRadius: "1.5rem",
+                boxShadow: "0 4px 24px rgba(81,130,200,0.10)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "1.2rem"
+              }}>
+                <img
+                  src="/ipbl2.jpg"
+                  alt="IPBL Japan Project LOGO"
+                  style={{ width: "180px", maxWidth: "80vw", marginBottom: "0.5rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(81,130,200,0.07)" }}
+                />
+                <span style={{ fontSize: "2rem", color: "#222", fontWeight: 700, textAlign: "center" }}>IPBL Japan Project</span>
+                <span style={{ fontSize: "1.2rem", color: "#5182c8", fontWeight: 600 }}>(2025)</span>
+                <span style={{ fontSize: "1.1rem", color: "#333", textAlign: "center", background: "rgba(255,255,255,0.7)", padding: "1rem 1.2rem", borderRadius: "1rem", boxShadow: "0 2px 8px rgba(81,130,200,0.07)" }}>
+                  The project for IPBL 2025 that was held in Japan was to create an algorithm and hardware that could efficiently convert sunlight to power using solar panels. The competition was decided based on whose group was able to generate the most power with their algorithm and hardware.
+                </span>
               </div>
             </SwiperSlide>
           </Swiper>
         </div>
       </section>
 
-      {/* --- CONTACT SECTION --- */}
       <section
         id="contacts-section"
-        className="relative w-full py-24 px-4 sm:px-8"
+        className="section"
+        data-speed="0.01"
         style={{
-          background: "linear-gradient(135deg, #d97b34 0%, #fffbe6 100%)",
+          background: "linear-gradient(120deg, #D97B34 60%, #fffbe6 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
         }}
       >
-        <div 
-          style={glassStyle}
-          className="max-w-lg mx-auto rounded-3xl p-10 flex flex-col items-center gap-6 text-center"
-        >
-          <h2 className="text-4xl font-bold text-[#D97B34] flex items-center justify-center">
-            <span className="mr-2">📬</span> Contact Me
+        <div style={{
+          background: "rgba(255,255,255,0.98)",
+          borderRadius: "2rem",
+          boxShadow: "0 8px 32px rgba(217,123,52,0.13)",
+          padding: "2.2rem 1.2rem",
+          maxWidth: "420px",
+          width: "100%",
+          margin: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1.2rem",
+          border: "1.5px solid #D97B34"
+        }}>
+          <h2 style={{ fontSize: "2rem", color: "#D97B34", fontWeight: 800, marginBottom: "0.7rem", letterSpacing: "-1px", textAlign: "center" }}>
+            <span style={{ verticalAlign: "middle", marginRight: "0.5rem" }}>📬</span>Contact Me
           </h2>
-          <p className="text-gray-700 text-lg">
-            Looking for a dedicated developer? <br/> Let's build something great together.
-          </p>
-          
-          <div className="w-full space-y-4 mt-2">
-            <a 
-                href="mailto:carreonromer@gmail.com" 
-                className="flex items-center justify-center gap-3 p-4 bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all text-gray-800 font-semibold no-underline"
-            >
-                <span className="text-xl">📧</span> carreonromer@gmail.com
-            </a>
-            
-            <div className="flex items-center justify-center gap-3 p-4 bg-white rounded-xl shadow-md text-gray-800 font-semibold">
-                <span className="text-xl">📱</span> +63 945 880 5267
+          <div style={{ fontSize: "1.1rem", color: "#222", textAlign: "center", marginBottom: "0.7rem" }}>
+            That's all about me! If you want to reach out, feel free to contact me through the following:
+          </div>
+          <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: "0.7rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.7rem", justifyContent: "center" }}>
+              <span style={{ fontSize: "1.3rem" }}>📧</span>
+              <a href="mailto:carreonromer@gmail.com" style={{ color: "#D97B34", fontWeight: 600, fontSize: "1.1rem", textDecoration: "none" }}>carreonromer@gmail.com</a>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.7rem", justifyContent: "center" }}>
+              <span style={{ fontSize: "1.3rem" }}>📱</span>
+              <span style={{ color: "#222", fontWeight: 600, fontSize: "1.1rem" }}>+63 945 880 5267</span>
             </div>
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }
